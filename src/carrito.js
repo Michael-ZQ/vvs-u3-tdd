@@ -1,8 +1,9 @@
-import { validarProducto } from "./validaciones.js";
+import { validarProducto, validarNumero } from "./validaciones.js";
 
 export class Carrito {
   // Map indexado por id: buscar, actualizar o eliminar una línea no recorre todo el carrito.
   #lineas = new Map();
+  #descuento = 0;
 
   agregarProducto(producto) {
     validarProducto(producto);
@@ -21,7 +22,21 @@ export class Carrito {
   }
 
   subtotal() {
-    return [...this.#lineas.values()].reduce((suma, linea) => suma + importe(linea), 0);
+    const suma = [...this.#lineas.values()].reduce((acc, linea) => acc + importe(linea), 0);
+    return Math.round(suma * 100) / 100;
+  }
+
+  aplicarDescuento(porcentaje) {
+    validarNumero(porcentaje, "El descuento");
+    if (porcentaje < 0 || porcentaje > 100) {
+      throw new RangeError(`El descuento debe estar entre 0 y 100 (recibido: ${porcentaje})`);
+    }
+    this.#descuento = porcentaje;
+  }
+
+  total() {
+    const total = this.subtotal() - (this.subtotal() * this.#descuento) / 100;
+    return Math.max(0, Math.round(total * 100) / 100);
   }
 }
 
