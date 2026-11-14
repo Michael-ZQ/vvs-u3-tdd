@@ -11,6 +11,9 @@ export class Carrito {
 
     const existente = this.#lineas.get(producto.id);
     if (existente) {
+      if (existente.nombre !== producto.nombre || existente.precio !== producto.precio) {
+        throw new Error(`El producto ${producto.id} ya está en el carrito con otro nombre o precio`);
+      }
       existente.cantidad += producto.cantidad;
       return;
     }
