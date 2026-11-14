@@ -56,4 +56,4 @@ Los requisitos no dicen todo. Estas decisiones salieron al intentar escribir el 
 | C-25 | RF-05 | I | `cantidad: "2"` | `TypeError` |
 | C-26 | RF-05 | I | `precio: NaN` | `TypeError` |
 
-**Resumen:** 26 casos · 6 normales · 8 de borde · 12 inválidos.
+**Resumen:** 26 casos · 6 normales · 7 de borde · 13 inválidos.
