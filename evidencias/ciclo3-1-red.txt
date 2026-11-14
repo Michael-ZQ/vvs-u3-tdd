@@ -1,0 +1,204 @@
+# Evidencia: ciclo3-1-red — RED: descuento, total y redondeo (C-16 corregida para validar el mensaje)
+# Fecha: 2026-11-13 22:10 (hora local) | Node v22.23.3
+# Comando: npx vitest run --reporter=verbose
+
+RUN  v5.1.0 .
+
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-01 agrega un producto y lo lista con sus datos 2ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-02 borde: acepta cantidad 1 0ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-03 borde: acepta precio 0 (producto de regalo) 0ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-04 borde: el mismo id dos veces suma cantidades en una sola línea 0ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-05 inválido: id vacío lanza TypeError 1ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-06 inválido: nombre en blanco lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-22 precio negativo lanza RangeError con el valor recibido 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-23 cantidad 0 lanza RangeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-24 cantidad decimal 1.5 lanza RangeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-25 cantidad como texto lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-26 precio NaN lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > un dato inválido no deja el carrito a medias 0ms
+ ✓ tests/carrito.test.js > RF-02 subtotal y total > C-07 subtotal de dos productos: 25.5 x 2 + 10 x 3 = 81 0ms
+ × tests/carrito.test.js > RF-02 subtotal y total > C-08 borde: carrito vacío tiene subtotal y total 0 4ms
+   → carrito.total is not a function
+ × tests/carrito.test.js > RF-02 subtotal y total > C-09 borde: redondea a 2 decimales (0.1 x 3 = 0.3) 3ms
+   → expected 0.30000000000000004 to be 0.3 // Object.is equality
+ × tests/carrito.test.js > RF-02 subtotal y total > C-10 sin descuento el total es igual al subtotal 0ms
+   → carrito.total is not a function
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-11 descuento de 10 %: 81 - 10 % = 72.9 1ms
+   → carrito.aplicarDescuento is not a function
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-12 borde: descuento 0 % deja el total igual 0ms
+   → carrito.aplicarDescuento is not a function
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-13 borde: descuento 100 % da total 0, nunca negativo 0ms
+   → carrito.aplicarDescuento is not a function
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-14 inválido: descuento 100.01 lanza RangeError 1ms
+   → expected a thrown error to be RangeError: El descuento debe estar entre…
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-15 inválido: descuento -1 lanza RangeError 0ms
+   → expected error to be instance of RangeError
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-16 inválido: descuento como texto lanza TypeError 1ms
+   → expected a thrown error to be TypeError: El descuento debe ser un númer…
+ × tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > un descuento inválido no cambia el descuento anterior 0ms
+   → carrito.aplicarDescuento is not a function
+
+ Test Files  1 failed (1)
+      Tests  10 failed | 13 passed (23)
+   Start at  22:10:53
+   Duration  275ms (import 39%, transform 32%, tests 23%, worker 6%)
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/carrito.test.js > RF-02 subtotal y total > C-08 borde: carrito vacío tiene subtotal y total 0
+TypeError: carrito.total is not a function
+ ❯ tests/carrito.test.js:90:20
+     88|   test("C-08 borde: carrito vacío tiene subtotal y total 0", () => {
+     89|     expect(carrito.subtotal()).toBe(0);
+     90|     expect(carrito.total()).toBe(0);
+       |                    ^
+     91|   });
+     92|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-02 subtotal y total > C-09 borde: redondea a 2 decimales (0.1 x 3 = 0.3)
+AssertionError: expected 0.30000000000000004 to be 0.3 // Object.is equality
+
+- Expected
++ Received
+
+- 0.3
++ 0.30000000000000004
+
+ ❯ tests/carrito.test.js:95:32
+     93|   test("C-09 borde: redondea a 2 decimales (0.1 x 3 = 0.3)", () => {
+     94|     carrito.agregarProducto({ id: "P3", nombre: "Caramelo", precio: 0.…
+     95|     expect(carrito.subtotal()).toBe(0.3);
+       |                                ^
+     96|   });
+     97|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-02 subtotal y total > C-10 sin descuento el total es igual al subtotal
+TypeError: carrito.total is not a function
+ ❯ tests/carrito.test.js:101:20
+     99|     carrito.agregarProducto(teclado);
+    100|     carrito.agregarProducto(mouse);
+    101|     expect(carrito.total()).toBe(81);
+       |                    ^
+    102|   });
+    103| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-11 descuento de 10 %: 81 - 10 % = 72.9
+TypeError: carrito.aplicarDescuento is not a function
+ ❯ tests/carrito.test.js:112:13
+    110|
+    111|   test("C-11 descuento de 10 %: 81 - 10 % = 72.9", () => {
+    112|     carrito.aplicarDescuento(10);
+       |             ^
+    113|     expect(carrito.total()).toBe(72.9);
+    114|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-12 borde: descuento 0 % deja el total igual
+TypeError: carrito.aplicarDescuento is not a function
+ ❯ tests/carrito.test.js:117:13
+    115|
+    116|   test("C-12 borde: descuento 0 % deja el total igual", () => {
+    117|     carrito.aplicarDescuento(0);
+       |             ^
+    118|     expect(carrito.total()).toBe(81);
+    119|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-13 borde: descuento 100 % da total 0, nunca negativo
+TypeError: carrito.aplicarDescuento is not a function
+ ❯ tests/carrito.test.js:122:13
+    120|
+    121|   test("C-13 borde: descuento 100 % da total 0, nunca negativo", () =>…
+    122|     carrito.aplicarDescuento(100);
+       |             ^
+    123|     expect(carrito.total()).toBe(0);
+    124|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-14 inválido: descuento 100.01 lanza RangeError
+AssertionError: expected a thrown error to be RangeError: El descuento debe estar entre…
+
+- Expected
++ Received
+
+- RangeError {
+-   "message": "El descuento debe estar entre 0 y 100 (recibido: 100.01)",
++ TypeError {
++   "message": "carrito.aplicarDescuento is not a function",
+  }
+
+ ❯ tests/carrito.test.js:127:52
+    125|
+    126|   test("C-14 inválido: descuento 100.01 lanza RangeError", () => {
+    127|     expect(() => carrito.aplicarDescuento(100.01)).toThrow(
+       |                                                    ^
+    128|       new RangeError("El descuento debe estar entre 0 y 100 (recibido:…
+    129|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-15 inválido: descuento -1 lanza RangeError
+AssertionError: expected error to be instance of RangeError
+
+- Expected:
+[Function RangeError]
+
++ Received:
+TypeError {
+  "message": "carrito.aplicarDescuento is not a function",
+}
+
+ ❯ tests/carrito.test.js:133:48
+    131|
+    132|   test("C-15 inválido: descuento -1 lanza RangeError", () => {
+    133|     expect(() => carrito.aplicarDescuento(-1)).toThrow(RangeError);
+       |                                                ^
+    134|   });
+    135|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-16 inválido: descuento como texto lanza TypeError
+AssertionError: expected a thrown error to be TypeError: El descuento debe ser un númer…
+
+- Expected
++ Received
+
+  TypeError {
+-   "message": "El descuento debe ser un número finito",
++   "message": "carrito.aplicarDescuento is not a function",
+  }
+
+ ❯ tests/carrito.test.js:139:50
+    137|   // aplicarDescuento no existiera ("is not a function" también es Typ…
+    138|   test("C-16 inválido: descuento como texto lanza TypeError", () => {
+    139|     expect(() => carrito.aplicarDescuento("10")).toThrow(
+       |                                                  ^
+    140|       new TypeError("El descuento debe ser un número finito"),
+    141|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > un descuento inválido no cambia el descuento anterior
+TypeError: carrito.aplicarDescuento is not a function
+ ❯ tests/carrito.test.js:145:13
+    143|
+    144|   test("un descuento inválido no cambia el descuento anterior", () => {
+    145|     carrito.aplicarDescuento(10);
+       |             ^
+    146|     expect(() => carrito.aplicarDescuento(150)).toThrow();
+    147|     expect(carrito.total()).toBe(72.9);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+# Código de salida: 1

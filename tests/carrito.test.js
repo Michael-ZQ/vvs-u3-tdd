@@ -84,4 +84,66 @@ describe("RF-02 subtotal y total", () => {
     carrito.agregarProducto(mouse);
     expect(carrito.subtotal()).toBe(81);
   });
+
+  test("C-08 borde: carrito vacío tiene subtotal y total 0", () => {
+    expect(carrito.subtotal()).toBe(0);
+    expect(carrito.total()).toBe(0);
+  });
+
+  test("C-09 borde: redondea a 2 decimales (0.1 x 3 = 0.3)", () => {
+    carrito.agregarProducto({ id: "P3", nombre: "Caramelo", precio: 0.1, cantidad: 3 });
+    expect(carrito.subtotal()).toBe(0.3);
+  });
+
+  test("C-10 sin descuento el total es igual al subtotal", () => {
+    carrito.agregarProducto(teclado);
+    carrito.agregarProducto(mouse);
+    expect(carrito.total()).toBe(81);
+  });
+});
+
+describe("RF-03 descuento de 0 a 100 % sin totales negativos", () => {
+  beforeEach(() => {
+    carrito.agregarProducto(teclado);
+    carrito.agregarProducto(mouse);
+  });
+
+  test("C-11 descuento de 10 %: 81 - 10 % = 72.9", () => {
+    carrito.aplicarDescuento(10);
+    expect(carrito.total()).toBe(72.9);
+  });
+
+  test("C-12 borde: descuento 0 % deja el total igual", () => {
+    carrito.aplicarDescuento(0);
+    expect(carrito.total()).toBe(81);
+  });
+
+  test("C-13 borde: descuento 100 % da total 0, nunca negativo", () => {
+    carrito.aplicarDescuento(100);
+    expect(carrito.total()).toBe(0);
+  });
+
+  test("C-14 inválido: descuento 100.01 lanza RangeError", () => {
+    expect(() => carrito.aplicarDescuento(100.01)).toThrow(
+      new RangeError("El descuento debe estar entre 0 y 100 (recibido: 100.01)"),
+    );
+  });
+
+  test("C-15 inválido: descuento -1 lanza RangeError", () => {
+    expect(() => carrito.aplicarDescuento(-1)).toThrow(RangeError);
+  });
+
+  // Se valida también el mensaje: solo con TypeError la prueba pasaba aunque
+  // aplicarDescuento no existiera ("is not a function" también es TypeError).
+  test("C-16 inválido: descuento como texto lanza TypeError", () => {
+    expect(() => carrito.aplicarDescuento("10")).toThrow(
+      new TypeError("El descuento debe ser un número finito"),
+    );
+  });
+
+  test("un descuento inválido no cambia el descuento anterior", () => {
+    carrito.aplicarDescuento(10);
+    expect(() => carrito.aplicarDescuento(150)).toThrow();
+    expect(carrito.total()).toBe(72.9);
+  });
 });
