@@ -1,4 +1,4 @@
-import { validarProducto, validarDescuento } from "./validaciones.js";
+import { validarProducto, validarDescuento, validarCantidad } from "./validaciones.js";
 import { redondear2, aplicarPorcentaje } from "./dinero.js";
 
 export class Carrito {
@@ -25,6 +25,21 @@ export class Carrito {
   subtotal() {
     const suma = [...this.#lineas.values()].reduce((acc, linea) => acc + importe(linea), 0);
     return redondear2(suma);
+  }
+
+  actualizarCantidad(id, cantidad) {
+    if (!this.#lineas.has(id)) {
+      throw new Error(`No existe el producto con id ${id}`);
+    }
+    validarCantidad(cantidad);
+    this.#lineas.get(id).cantidad = cantidad;
+  }
+
+  eliminarProducto(id) {
+    if (!this.#lineas.has(id)) {
+      throw new Error(`No existe el producto con id ${id}`);
+    }
+    this.#lineas.delete(id);
   }
 
   aplicarDescuento(porcentaje) {

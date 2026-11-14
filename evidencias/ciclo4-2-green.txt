@@ -1,0 +1,41 @@
+# Evidencia: ciclo4-2-green — GREEN: actualizarCantidad y eliminarProducto
+# Fecha: 2026-11-13 22:15 (hora local) | Node v22.23.3
+# Comando: npx vitest run --reporter=verbose
+
+RUN  v5.1.0 .
+
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-01 agrega un producto y lo lista con sus datos 2ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-02 borde: acepta cantidad 1 0ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-03 borde: acepta precio 0 (producto de regalo) 0ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-04 borde: el mismo id dos veces suma cantidades en una sola línea 0ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-05 inválido: id vacío lanza TypeError 1ms
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-06 inválido: nombre en blanco lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-04 actualizar cantidades y eliminar productos > C-17 actualizar la cantidad recalcula el subtotal: 25.5 x 5 + 10 x 3 = 157.5 0ms
+ ✓ tests/carrito.test.js > RF-04 actualizar cantidades y eliminar productos > C-18 eliminar un producto lo quita de la lista 0ms
+ ✓ tests/carrito.test.js > RF-04 actualizar cantidades y eliminar productos > C-19 actualizar un id que no existe lanza Error 0ms
+ ✓ tests/carrito.test.js > RF-04 actualizar cantidades y eliminar productos > C-20 actualizar a cantidad 0 lanza RangeError y no cambia la cantidad 0ms
+ ✓ tests/carrito.test.js > RF-04 actualizar cantidades y eliminar productos > C-21 eliminar un id que no existe lanza Error 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-22 precio negativo lanza RangeError con el valor recibido 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-23 cantidad 0 lanza RangeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-24 cantidad decimal 1.5 lanza RangeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-25 cantidad como texto lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > C-26 precio NaN lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-05 rechazar datos inválidos con errores claros > un dato inválido no deja el carrito a medias 0ms
+ ✓ tests/carrito.test.js > RF-02 subtotal y total > C-07 subtotal de dos productos: 25.5 x 2 + 10 x 3 = 81 0ms
+ ✓ tests/carrito.test.js > RF-02 subtotal y total > C-08 borde: carrito vacío tiene subtotal y total 0 0ms
+ ✓ tests/carrito.test.js > RF-02 subtotal y total > C-09 borde: redondea a 2 decimales (0.1 x 3 = 0.3) 0ms
+ ✓ tests/carrito.test.js > RF-02 subtotal y total > C-10 sin descuento el total es igual al subtotal 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-11 descuento de 10 %: 81 - 10 % = 72.9 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-12 borde: descuento 0 % deja el total igual 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-13 borde: descuento 100 % da total 0, nunca negativo 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-14 inválido: descuento 100.01 lanza RangeError 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-15 inválido: descuento -1 lanza RangeError 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > C-16 inválido: descuento como texto lanza TypeError 0ms
+ ✓ tests/carrito.test.js > RF-03 descuento de 0 a 100 % sin totales negativos > un descuento inválido no cambia el descuento anterior 0ms
+
+ Test Files  1 passed (1)
+      Tests  28 passed (28)
+   Start at  22:15:36
+   Duration  202ms (transform 40%, import 39%, tests 13%, worker 8%)
+
+# Código de salida: 0
