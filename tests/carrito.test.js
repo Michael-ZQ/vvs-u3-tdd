@@ -45,6 +45,37 @@ describe("RF-01 agregar productos", () => {
   });
 });
 
+describe("RF-04 actualizar cantidades y eliminar productos", () => {
+  beforeEach(() => {
+    carrito.agregarProducto(teclado);
+    carrito.agregarProducto(mouse);
+  });
+
+  test("C-17 actualizar la cantidad recalcula el subtotal: 25.5 x 5 + 10 x 3 = 157.5", () => {
+    carrito.actualizarCantidad("P1", 5);
+    expect(carrito.subtotal()).toBe(157.5);
+  });
+
+  test("C-18 eliminar un producto lo quita de la lista", () => {
+    carrito.eliminarProducto("P1");
+    expect(carrito.listarProductos()).toEqual([mouse]);
+    expect(carrito.subtotal()).toBe(30);
+  });
+
+  test("C-19 actualizar un id que no existe lanza Error", () => {
+    expect(() => carrito.actualizarCantidad("X9", 2)).toThrow(new Error("No existe el producto con id X9"));
+  });
+
+  test("C-20 actualizar a cantidad 0 lanza RangeError y no cambia la cantidad", () => {
+    expect(() => carrito.actualizarCantidad("P1", 0)).toThrow(RangeError);
+    expect(carrito.listarProductos()[0].cantidad).toBe(2);
+  });
+
+  test("C-21 eliminar un id que no existe lanza Error", () => {
+    expect(() => carrito.eliminarProducto("X9")).toThrow(new Error("No existe el producto con id X9"));
+  });
+});
+
 describe("RF-05 rechazar datos inválidos con errores claros", () => {
   test("C-22 precio negativo lanza RangeError con el valor recibido", () => {
     expect(() => carrito.agregarProducto({ ...teclado, precio: -1 })).toThrow(
