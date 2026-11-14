@@ -28,18 +28,23 @@ export class Carrito {
   }
 
   actualizarCantidad(id, cantidad) {
-    if (!this.#lineas.has(id)) {
-      throw new Error(`No existe el producto con id ${id}`);
-    }
+    const linea = this.#exigirLinea(id);
     validarCantidad(cantidad);
-    this.#lineas.get(id).cantidad = cantidad;
+    linea.cantidad = cantidad;
   }
 
   eliminarProducto(id) {
-    if (!this.#lineas.has(id)) {
+    this.#exigirLinea(id);
+    this.#lineas.delete(id);
+  }
+
+  // Devuelve la línea del producto o lanza un error claro si no existe.
+  #exigirLinea(id) {
+    const linea = this.#lineas.get(id);
+    if (!linea) {
       throw new Error(`No existe el producto con id ${id}`);
     }
-    this.#lineas.delete(id);
+    return linea;
   }
 
   aplicarDescuento(porcentaje) {
