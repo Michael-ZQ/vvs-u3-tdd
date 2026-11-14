@@ -1,0 +1,15 @@
+# Evidencia: ciclo1-3-refactor — REFACTOR: Map por id, copias defensivas y reduce; mismas pruebas en verde
+# Fecha: 2026-11-13 22:07 (hora local) | Node v22.23.3
+# Comando: npx vitest run --reporter=verbose
+
+RUN  v5.1.0 .
+
+ ✓ tests/carrito.test.js > RF-01 agregar productos > C-01 agrega un producto y lo lista con sus datos 2ms
+ ✓ tests/carrito.test.js > RF-02 subtotal y total > C-07 subtotal de dos productos: 25.5 x 2 + 10 x 3 = 81 0ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  22:07:18
+   Duration  197ms (import 45%, transform 39%, worker 9%, tests 6%)
+
+# Código de salida: 0
