@@ -13,7 +13,8 @@ const run = spawnSync("npx", args, { encoding: "utf8", shell: true, env: { ...pr
 const salida = (run.stdout + run.stderr)
   .replace(/\x1b\[[0-9;]*m/g, "")
   .split(process.cwd() + "\\").join("")
-  .split(process.cwd().replaceAll("\\", "/") + "/").join("");
+  .split(process.cwd().replaceAll("\\", "/") + "/").join("")
+  .split(process.cwd().replaceAll("\\", "/")).join(".");
 const texto = [
   `# Evidencia: ${nombre} — ${descripcion}`,
   `# Fecha: ${new Date().toLocaleString("sv-SE").slice(0, 16)} (hora local) | Node ${process.version}`,

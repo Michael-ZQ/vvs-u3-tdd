@@ -1,0 +1,29 @@
+# Evidencia: ciclo1-1-red — RED: pruebas de agregar y subtotal antes de que exista el código
+# Fecha: 2026-11-13 22:06 (hora local) | Node v22.23.3
+# Comando: npx vitest run --reporter=verbose
+
+RUN  v5.1.0 .
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  22:06:17
+   Duration  180ms (worker 96%, environment 4%)
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/carrito.test.js [ tests/carrito.test.js ]
+Error: Cannot find module '../src/carrito.js' imported from tests/carrito.test.js
+ ❯ tests/carrito.test.js:2:1
+      1| import { describe, test, expect, beforeEach } from "vitest";
+      2| import { Carrito } from "../src/carrito.js";
+       | ^
+      3|
+      4| // Cada prueba lleva el ID del caso en docs/casos.md.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_MODULE_NOT_FOUND' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+# Código de salida: 1
