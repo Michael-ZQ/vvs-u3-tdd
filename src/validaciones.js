@@ -34,7 +34,11 @@ export function validarDescuento(porcentaje) {
   }
 }
 
-export function validarProducto({ id, nombre, precio, cantidad }) {
+export function validarProducto(producto) {
+  if (typeof producto !== "object" || producto === null) {
+    throw new TypeError("El producto debe ser un objeto con id, nombre, precio y cantidad");
+  }
+  const { id, nombre, precio, cantidad } = producto;
   validarTexto(id, "El id");
   validarTexto(nombre, "El nombre");
   validarPrecio(precio);

@@ -24,6 +24,8 @@ Los requisitos no dicen todo. Estas decisiones salieron al intentar escribir el 
 | D-03 | ¿Un precio 0 es válido? | Sí (producto de regalo). Solo se rechazan precios negativos. |
 | D-04 | ¿Cuántos decimales tiene el resultado? | Subtotal y total se redondean a 2 decimales. |
 | D-05 | ¿Qué es un «error claro»? | Tipo de error según la causa (`TypeError` tipo de dato, `RangeError` fuera de rango, `Error` producto inexistente) y un mensaje en español que dice qué dato falló y qué valor llegó. |
+| D-06 | (Fase C) ¿Qué pasa si llega el mismo id con otro precio o nombre? | Se rechaza con `Error`: son datos inconsistentes y no se debe adivinar cuál vale. |
+| D-07 | (Fase C) ¿Cómo se redondea medio centavo (1.005)? | Hacia arriba (1.01), corrigiendo el error de coma flotante con `Number.EPSILON`. |
 
 ## Casos
 
@@ -56,4 +58,12 @@ Los requisitos no dicen todo. Estas decisiones salieron al intentar escribir el 
 | C-25 | RF-05 | I | `cantidad: "2"` | `TypeError` |
 | C-26 | RF-05 | I | `precio: NaN` | `TypeError` |
 
-**Resumen:** 26 casos · 6 normales · 7 de borde · 13 inválidos.
+| C-27 | RF-05 | I | `agregarProducto(null)` o sin argumento | `TypeError` «El producto debe ser un objeto…» (Fase C) |
+| C-28 | RF-01 | I | Mismo id con otro precio | `Error` y el carrito no cambia (D-06, Fase C) |
+| C-29 | RF-02 | B | Precio 1.005 × 1 | Subtotal `1.01` (D-07, Fase C) |
+| C-30 | RF-05 | I | id numérico, precio `Infinity`, cantidad `-3` | `TypeError` / `TypeError` / `RangeError` (Fase C) |
+| C-31 | RF-03 | I | Descuento `NaN` | `TypeError` (Fase C) |
+| C-32 | RF-04 | I | Actualizar con cantidad `"3"` | `TypeError` (Fase C) |
+| C-33 | RF-01 | B | Modificar el objeto original o la lista devuelta | El carrito no cambia (Fase C) |
+
+**Resumen:** 33 casos · 6 normales · 9 de borde · 18 inválidos. Los casos C-27 a C-33 se agregaron en la Fase C, después de llegar al 100 % de cobertura.

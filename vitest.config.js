@@ -7,7 +7,9 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["src/**/*.js"],
-      reporter: ["text", "html"],
+      reporter: ["text", "text-summary", "html"],
+      // Si la cobertura baja de estos mínimos, npm run coverage falla (también en CI).
+      thresholds: { lines: 90, branches: 90, functions: 90, statements: 90 },
     },
   },
 });
