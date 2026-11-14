@@ -8,26 +8,25 @@ export class Carrito {
 
   agregarProducto(producto) {
     validarProducto(producto);
-
     const existente = this.#lineas.get(producto.id);
     if (existente) {
-      if (existente.nombre !== producto.nombre || existente.precio !== producto.precio) {
-        throw new Error(`El producto ${producto.id} ya está en el carrito con otro nombre o precio`);
-      }
-      existente.cantidad += producto.cantidad;
-      return;
+      sumarCantidad(existente, producto);
+    } else {
+      this.#lineas.set(producto.id, { ...producto });
     }
-    this.#lineas.set(producto.id, { ...producto });
   }
 
   // Devuelve copias para que nadie modifique el carrito desde afuera.
   listarProductos() {
-    return [...this.#lineas.values()].map((linea) => ({ ...linea }));
+    return this.#todas().map((linea) => ({ ...linea }));
   }
 
   subtotal() {
-    const suma = [...this.#lineas.values()].reduce((acc, linea) => acc + importe(linea), 0);
-    return redondear2(suma);
+    return redondear2(this.#todas().reduce((acc, linea) => acc + importe(linea), 0));
+  }
+
+  #todas() {
+    return [...this.#lineas.values()];
   }
 
   actualizarCantidad(id, cantidad) {
@@ -64,4 +63,12 @@ export class Carrito {
 
 function importe({ precio, cantidad }) {
   return precio * cantidad;
+}
+
+// Un id repetido solo suma cantidad si es el mismo producto (D-01, D-06).
+function sumarCantidad(existente, nuevo) {
+  if (existente.nombre !== nuevo.nombre || existente.precio !== nuevo.precio) {
+    throw new Error(`El producto ${nuevo.id} ya está en el carrito con otro nombre o precio`);
+  }
+  existente.cantidad += nuevo.cantidad;
 }
