@@ -109,6 +109,53 @@ describe("RF-05 rechazar datos inválidos con errores claros", () => {
   });
 });
 
+// Fase C: casos negativos adicionales, buscados después de llegar al 100 % de cobertura.
+describe("Fase C: casos negativos adicionales", () => {
+  test("C-27 agregar null o sin argumento lanza un TypeError claro", () => {
+    const esperado = new TypeError("El producto debe ser un objeto con id, nombre, precio y cantidad");
+    expect(() => carrito.agregarProducto(null)).toThrow(esperado);
+    expect(() => carrito.agregarProducto()).toThrow(esperado);
+  });
+
+  test("C-28 el mismo id con otro precio o nombre se rechaza", () => {
+    carrito.agregarProducto(teclado);
+    expect(() => carrito.agregarProducto({ ...teclado, precio: 99 })).toThrow(
+      new Error("El producto P1 ya está en el carrito con otro nombre o precio"),
+    );
+    expect(carrito.listarProductos()).toEqual([teclado]);
+  });
+
+  test("C-29 redondea medio centavo hacia arriba: 1.005 -> 1.01", () => {
+    carrito.agregarProducto({ id: "P4", nombre: "Chicle", precio: 1.005, cantidad: 1 });
+    expect(carrito.subtotal()).toBe(1.01);
+  });
+
+  test.each([
+    ["id numérico", { ...teclado, id: 123 }, TypeError],
+    ["precio Infinity", { ...teclado, precio: Infinity }, TypeError],
+    ["cantidad negativa", { ...teclado, cantidad: -3 }, RangeError],
+  ])("C-30 %s se rechaza", (_nombre, producto, tipo) => {
+    expect(() => carrito.agregarProducto(producto)).toThrow(tipo);
+  });
+
+  test("C-31 descuento NaN lanza TypeError", () => {
+    expect(() => carrito.aplicarDescuento(NaN)).toThrow(new TypeError("El descuento debe ser un número finito"));
+  });
+
+  test("C-32 actualizar con cantidad como texto lanza TypeError", () => {
+    carrito.agregarProducto(teclado);
+    expect(() => carrito.actualizarCantidad("P1", "3")).toThrow(TypeError);
+  });
+
+  test("C-33 modificar la lista devuelta o el objeto original no cambia el carrito", () => {
+    const original = { ...teclado };
+    carrito.agregarProducto(original);
+    original.precio = 0;
+    carrito.listarProductos()[0].cantidad = 100;
+    expect(carrito.subtotal()).toBe(51);
+  });
+});
+
 describe("RF-02 subtotal y total", () => {
   test("C-07 subtotal de dos productos: 25.5 x 2 + 10 x 3 = 81", () => {
     carrito.agregarProducto(teclado);
