@@ -1,0 +1,25 @@
+{
+  "name": "vvs-u3-tdd",
+  "version": "1.0.0",
+  "description": "Carrito de compras desarrollado con TDD (Vitest + GitHub Actions)",
+  "main": "src/carrito.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "evidencia": "node scripts/evidencia.js"
+  },
+  "author": "Michael Zaquinaula",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.1.0",
+    "vitest": "^5.1.0"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  }
+}
