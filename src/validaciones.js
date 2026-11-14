@@ -27,6 +27,13 @@ export function validarCantidad(cantidad) {
   }
 }
 
+export function validarDescuento(porcentaje) {
+  validarNumero(porcentaje, "El descuento");
+  if (porcentaje < 0 || porcentaje > 100) {
+    throw new RangeError(`El descuento debe estar entre 0 y 100 (recibido: ${porcentaje})`);
+  }
+}
+
 export function validarProducto({ id, nombre, precio, cantidad }) {
   validarTexto(id, "El id");
   validarTexto(nombre, "El nombre");

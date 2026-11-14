@@ -1,4 +1,5 @@
-import { validarProducto, validarNumero } from "./validaciones.js";
+import { validarProducto, validarDescuento } from "./validaciones.js";
+import { redondear2, aplicarPorcentaje } from "./dinero.js";
 
 export class Carrito {
   // Map indexado por id: buscar, actualizar o eliminar una línea no recorre todo el carrito.
@@ -23,20 +24,18 @@ export class Carrito {
 
   subtotal() {
     const suma = [...this.#lineas.values()].reduce((acc, linea) => acc + importe(linea), 0);
-    return Math.round(suma * 100) / 100;
+    return redondear2(suma);
   }
 
   aplicarDescuento(porcentaje) {
-    validarNumero(porcentaje, "El descuento");
-    if (porcentaje < 0 || porcentaje > 100) {
-      throw new RangeError(`El descuento debe estar entre 0 y 100 (recibido: ${porcentaje})`);
-    }
+    validarDescuento(porcentaje);
     this.#descuento = porcentaje;
   }
 
+  // El descuento ya está validado entre 0 y 100, así que el total no puede ser negativo;
+  // Math.max queda como protección explícita de RF-03.
   total() {
-    const total = this.subtotal() - (this.subtotal() * this.#descuento) / 100;
-    return Math.max(0, Math.round(total * 100) / 100);
+    return Math.max(0, redondear2(aplicarPorcentaje(this.subtotal(), this.#descuento)));
   }
 }
 
